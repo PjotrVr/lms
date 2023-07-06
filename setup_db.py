@@ -7,7 +7,7 @@ with sqlite3.connect('src/database/library.db') as conn:
     # Create students table
     cur.execute('''
         CREATE TABLE students (
-            jmbag INTEGER PRIMARY KEY,
+            jmbag TEXT PRIMARY KEY,
             name TEXT NOT NULL,
             surname TEXT NOT NULL,
             year INTEGER NOT NULL,
@@ -32,7 +32,7 @@ with sqlite3.connect('src/database/library.db') as conn:
     cur.execute('''
         CREATE TABLE borrowed_books (
             borrow_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            jmbag INTEGER,
+            jmbag TEXT,
             book_id INTEGER,
             borrow_date DATE NOT NULL,
             return_date DATE NOT NULL,
