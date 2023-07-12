@@ -1,0 +1,15 @@
+{
+    "late_fee_rate": 0.001,
+    "max_late_fee": 10.00,
+    "pepper": "e78492e7591e4164afeb0384f7a482c0",
+    "loan_duration_days": 14,
+    "renewal_duration_days": 7,
+    "max_renewals": 3,
+    "max_borrowed_books": 5,
+    "email_settings": {
+        "smtp_server": "smtp.example.com",
+        "smtp_port": 587,
+        "email_username": "library@example.com",
+        "email_password": "emailpassword"
+    }
+}
