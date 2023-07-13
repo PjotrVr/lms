@@ -12,7 +12,11 @@ with sqlite3.connect('src/database/library.db') as conn:
             surname TEXT NOT NULL,
             year INTEGER NOT NULL,
             date_of_birth DATE NOT NULL,
-            sex CHAR(1) NOT NULL CHECK (sex IN ('M', 'F', 'O'))
+            sex CHAR(1) NOT NULL CHECK (sex IN ('M', 'F', 'O')),
+            email TEXT NOT NULL UNIQUE,
+            hashed_password TEXT NOT NULL,
+            salt TEXT NOT NULL,
+            max_books INTEGER NOT NULL
         );
     ''')
 
@@ -36,7 +40,21 @@ with sqlite3.connect('src/database/library.db') as conn:
             book_id INTEGER,
             borrow_date DATE NOT NULL,
             return_date DATE NOT NULL,
+            is_overdue BOOLEAN DEFAULT 0,
+            overdue_fee FLOAT DEFAULT 0,
             FOREIGN KEY(jmbag) REFERENCES students(jmbag),
             FOREIGN KEY(book_id) REFERENCES books(book_id)
+        );
+    ''')
+
+    cur.execute('''
+        CREATE TABLE staff (
+            staff_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            surname TEXT NOT NULL,
+            email TEXT NOT NULL UNIQUE,
+            hashed_password TEXT NOT NULL,
+            salt TEXT NOT NULL,
+            position TEXT NOT NULL
         );
     ''')
