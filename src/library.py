@@ -57,3 +57,7 @@ def return_book(cursor, jmbag, book_id, current_date):
     
     else:
         return ReturnResult.RETURN_SUCCESSFUL
+    
+
+def search_book():
+    pass

@@ -2,6 +2,7 @@ import sqlite3
 from faker import Faker
 import random
 from datetime import datetime
+from .config import config
 
 
 fake = Faker()
@@ -10,7 +11,7 @@ fake = Faker()
 NUM_STUDENTS = 100
 NUM_BOOKS = 50
 
-with sqlite3.connect('src/database/library.db') as conn:
+with sqlite3.connect(config['DB_PATH']) as conn:
     cur = conn.cursor()
 
     # generate students data

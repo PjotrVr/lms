@@ -1,11 +1,12 @@
 import os
 import json
 
+
 with open('config.json') as config_file:
     config = json.load(config_file)
 
 # overwrite the config dictionary with environment variables if they exist
-config['db_path'] = os.environ.get('LMS_DB_PATH')
+config['DB_PATH'] = os.environ.get('LMS_DB_PATH')
 config['SMTP_SERVER'] = os.environ.get('LMS_SMTP_SERVER')
 config['SMTP_PORT'] = os.environ.get('LMS_SMTP_PORT')
 config['EMAIL'] = os.environ.get('LMS_EMAIL')

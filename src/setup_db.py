@@ -1,10 +1,11 @@
 import sqlite3
+from .config import config
 
 
-with sqlite3.connect('src/database/library.db') as conn:
+with sqlite3.connect(config['DB_PATH']) as conn:
     cur = conn.cursor()
 
-    # Create students table
+    # create students table
     cur.execute('''
         CREATE TABLE students (
             jmbag TEXT PRIMARY KEY,
@@ -20,7 +21,7 @@ with sqlite3.connect('src/database/library.db') as conn:
         );
     ''')
 
-    # Create books table
+    # create books table
     cur.execute('''
         CREATE TABLE books (
             book_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -32,7 +33,7 @@ with sqlite3.connect('src/database/library.db') as conn:
         );
     ''')
 
-    # Create borrowed books table
+    # create borrowed books table
     cur.execute('''
         CREATE TABLE borrowed_books (
             borrow_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -47,6 +48,7 @@ with sqlite3.connect('src/database/library.db') as conn:
         );
     ''')
 
+    # create staff table
     cur.execute('''
         CREATE TABLE staff (
             staff_id INTEGER PRIMARY KEY AUTOINCREMENT,
