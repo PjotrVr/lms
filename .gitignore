@@ -1,2 +1,4 @@
 venv/
 src/database/library.db
+notes.txt
+*/__pycache__
