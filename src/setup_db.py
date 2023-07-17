@@ -1,5 +1,15 @@
 import sqlite3
+import hashlib
+import bcrypt
 from .config import config
+
+
+def generate_hash(password, pepper):
+    salt = bcrypt.gensalt().decode('utf-8')
+    combined_password = salt + password + pepper
+    hashed_password = hashlib.sha512(combined_password.encode()).hexdigest()
+
+    return salt, hashed_password
 
 
 with sqlite3.connect(config['DB_PATH']) as conn:
@@ -60,3 +70,16 @@ with sqlite3.connect(config['DB_PATH']) as conn:
             position TEXT NOT NULL
         );
     ''')
+
+    # adding admin
+    name = 'Admin'
+    surname = 'Admin'
+    email = config['EMAIL']
+    password = config['EMAIL_PASSWORD']
+    salt, hashed_password = generate_hash(password, config['PEPPER'])
+    position = 'Admin'
+
+    cur.execute('''
+                INSERT INTO staff (name, surname, email, hashed_password, salt, position)
+                VALUES(?, ?, ?, ?, ?, ?)
+                ''', (name, surname, email, hashed_password, salt, position))
