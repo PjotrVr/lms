@@ -1,24 +1,15 @@
 import sqlite3
-import hashlib
-import bcrypt
-from .config import config
+from src.config import config
+from src.database.database import Database
 
-
-def generate_hash(password, pepper):
-    salt = bcrypt.gensalt().decode('utf-8')
-    combined_password = salt + password + pepper
-    hashed_password = hashlib.sha512(combined_password.encode()).hexdigest()
-
-    return salt, hashed_password
-
-
-with sqlite3.connect(config['DB_PATH']) as conn:
+with sqlite3.connect(config["DB_PATH"]) as conn:
+    db = Database(config)
     cur = conn.cursor()
 
     # create students table
     cur.execute('''
         CREATE TABLE students (
-            jmbag TEXT PRIMARY KEY,
+            student_id TEXT PRIMARY KEY,
             name TEXT NOT NULL,
             surname TEXT NOT NULL,
             year INTEGER NOT NULL,
@@ -47,13 +38,13 @@ with sqlite3.connect(config['DB_PATH']) as conn:
     cur.execute('''
         CREATE TABLE borrowed_books (
             borrow_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            jmbag TEXT,
+            student_id TEXT,
             book_id INTEGER,
             borrow_date DATE NOT NULL,
             return_date DATE NOT NULL,
             is_overdue BOOLEAN DEFAULT 0,
             overdue_fee FLOAT DEFAULT 0,
-            FOREIGN KEY(jmbag) REFERENCES students(jmbag),
+            FOREIGN KEY(student_id) REFERENCES students(student_id),
             FOREIGN KEY(book_id) REFERENCES books(book_id)
         );
     ''')
@@ -65,6 +56,8 @@ with sqlite3.connect(config['DB_PATH']) as conn:
             name TEXT NOT NULL,
             surname TEXT NOT NULL,
             email TEXT NOT NULL UNIQUE,
+            date_of_birth DATE NOT NULL,
+            sex CHAR(1) NOT NULL CHECK (sex IN ('M', 'F', 'O')),
             hashed_password TEXT NOT NULL,
             salt TEXT NOT NULL,
             position TEXT NOT NULL
@@ -72,14 +65,16 @@ with sqlite3.connect(config['DB_PATH']) as conn:
     ''')
 
     # adding admin
-    name = 'Admin'
-    surname = 'Admin'
-    email = config['EMAIL']
-    password = config['EMAIL_PASSWORD']
-    salt, hashed_password = generate_hash(password, config['PEPPER'])
-    position = 'Admin'
+    name = "Admin"
+    surname = "Admin"
+    email = config["EMAIL"]
+    password = config["EMAIL_PASSWORD"]
+    salt, hashed_password = db.generate_hash(password)
+    position = "Admin"
 
     cur.execute('''
-                INSERT INTO staff (name, surname, email, hashed_password, salt, position)
-                VALUES(?, ?, ?, ?, ?, ?)
-                ''', (name, surname, email, hashed_password, salt, position))
+                INSERT INTO staff (name, surname, email, hashed_password, salt, position, sex, date_of_birth)
+                VALUES(?, ?, ?, ?, ?, ?, ?, ?)
+                ''', (name, surname, email, hashed_password, salt, position, "O", ""))
+
+    
