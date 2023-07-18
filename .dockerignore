@@ -1,9 +1,9 @@
 Dockerfile
+Dockerfile.dev
 Dockerfile.test
 .dockerignore
 .git
 .gitignore
 **/__pycache__
-test.py
 README.md
 LICENSE
