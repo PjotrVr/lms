@@ -1,4 +1,0 @@
-Faker==18.11.2
-python_bcrypt==0.3.2
-pytest==7.4.0
-pylint==2.17.4
