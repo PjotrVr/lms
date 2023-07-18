@@ -2,6 +2,7 @@ import sqlite3
 from src.config import config
 from src.database.database import Database
 
+
 with sqlite3.connect(config["DB_PATH"]) as conn:
     db = Database(config)
     cur = conn.cursor()
@@ -44,6 +45,7 @@ with sqlite3.connect(config["DB_PATH"]) as conn:
             return_date DATE NOT NULL,
             is_overdue BOOLEAN DEFAULT 0,
             overdue_fee FLOAT DEFAULT 0,
+            borrow_status TEXT CHECK (borrow_status IN ("borrowed", "returned")) DEFAULT "borrowed",
             FOREIGN KEY(student_id) REFERENCES students(student_id),
             FOREIGN KEY(book_id) REFERENCES books(book_id)
         );

@@ -1,12 +1,14 @@
-from .person import Person
-
+from src.models.person import Person
+from src.database.database import Database
+from src.config import config
 
 class Student(Person):
-
-    def __init__(self, name, surname, email, password, student_id):
-        super().__init__(name, surname, email, password)
+    def __init__(self, name, surname, email, password, sex, date_of_birth, student_id, year, max_books):
+        super().__init__(name, surname, email, password, sex, date_of_birth)
         self.student_id = student_id
-        self.borrowed_books = []
+        self.year = year
+        self.max_books = max_books
+        self.db = Database(config)
 
     def get_details(self):
         return {
@@ -14,6 +16,9 @@ class Student(Person):
             "surname": self.surname,
             "email": self.email,
             "student_id": self.student_id,
-            "borrowed_books": [book.get_details() for book in self.borrowed_books]
+            "year": self.year,
+            "date_of_birth": self.date_of_birth,
+            "sex": self.sex,
+            "max_books": self.max_books,
+            "borrowed_books": self.db.get_borrowed_books(self.student_id)
         }
-    
