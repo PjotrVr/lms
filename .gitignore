@@ -1,5 +1,5 @@
-notes.txt
 **/__pycache__/
-test.py
 .env.prod
 .env.dev
+todo.txt
+venv
