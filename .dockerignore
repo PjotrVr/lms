@@ -1,5 +1,4 @@
 Dockerfile
-Dockerfile.dev
 Dockerfile.test
 .dockerignore
 .git
@@ -7,3 +6,4 @@ Dockerfile.test
 **/__pycache__
 README.md
 LICENSE
+VENV
